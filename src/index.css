@@ -159,21 +159,18 @@ h2 {
   border: 1px solid var(--border);
 }
 
-/* Status */
-
-.status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 0 4px;
-  font-weight: 600;
-  min-height: 36px;
+/* While playing, everything fits on one screen: the board takes what
+   height is left after the header, program and controls. */
+.app--play {
+  height: 100dvh;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
-.status .muted {
-  text-align: right;
-  font-weight: 500;
+.stage {
+  container-type: size;
+  display: grid;
+  place-items: center;
+  min-height: 0;
 }
 
 /* Board */
@@ -184,6 +181,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(var(--size), minmax(0, 1fr));
   gap: var(--gap);
+  width: min(100cqw, 100cqh);
   aspect-ratio: 1;
   padding: var(--gap);
   border-radius: 16px;
@@ -329,7 +327,7 @@ h2 {
 }
 
 .slot {
-  aspect-ratio: 1.2;
+  aspect-ratio: 1.4;
   border: 2px dashed var(--border);
   border-radius: 12px;
 }
@@ -587,11 +585,6 @@ h2 {
 
 .level:active {
   transform: scale(0.97);
-}
-
-.level__stars {
-  color: #d4a106;
-  font-size: 0.9rem;
 }
 
 /* How hard the level is, as one to four filled dots. */

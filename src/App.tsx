@@ -65,7 +65,7 @@ export default function App() {
     document.title = t.title;
   }, [lang, t]);
 
-  const stepMs = STEP_MS[settings.speed];
+  const stepMs = STEP_MS;
   const running = !!run;
   const playing = view === 'play' && !!game && !game.solved;
 
@@ -166,16 +166,8 @@ export default function App() {
     }
   }
 
-  const goal = !game
-    ? ''
-    : game.level.key !== undefined
-      ? t.goals.key
-      : game.level.stars.length
-        ? t.goals.stars
-        : t.goals.battery;
-
   return (
-    <main className='app'>
+    <main className={view === 'play' && game ? 'app app--play' : 'app'}>
       <header className='header'>
         <h1>{t.title}</h1>
         <div className='header__actions'>
@@ -207,7 +199,7 @@ export default function App() {
         </div>
       </header>
 
-      {view === 'new' && <NewGame onStart={start} stats={stats} t={t} />}
+      {view === 'new' && <NewGame onStart={start} t={t} />}
       {view === 'settings' && (
         <SettingsView
           settings={settings}
@@ -219,18 +211,15 @@ export default function App() {
 
       {view === 'play' && game && at && (
         <>
-          <div className='status'>
-            <span>{t.levels[game.level.difficulty]}</span>
-            <span className='muted'>{goal}</span>
+          <div className='stage'>
+            <Board
+              level={game.level}
+              at={at}
+              confused={confused}
+              stepMs={stepMs}
+              attempt={attempt}
+            />
           </div>
-
-          <Board
-            level={game.level}
-            at={at}
-            confused={confused}
-            stepMs={stepMs}
-            attempt={attempt}
-          />
 
           {game.solved ? (
             <section className='card solved'>
@@ -316,9 +305,11 @@ export default function App() {
         </>
       )}
 
-      <footer className='footer'>
-        <a href='https://github.com/mardesnic/des-robot'>{t.source}</a>
-      </footer>
+      {view === 'settings' && (
+        <footer className='footer'>
+          <a href='https://github.com/mardesnic/des-robot'>{t.source}</a>
+        </footer>
+      )}
       {celebrating && <Confetti onDone={() => setCelebrating(false)} />}
     </main>
   );

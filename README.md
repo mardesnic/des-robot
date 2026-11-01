@@ -13,13 +13,12 @@ On your phone, open it and choose **Add to Home Screen** (Safari) or **Install a
 ## Features
 
 - New levels made on your device, in four sizes:
-  - **Little**: a 4×4 board, a few rocks, 3 to 5 steps
+  - **Very easy**: a 4×4 board, a few rocks, 3 to 5 steps
   - **Easy**: a 5×5 board where rocks are in the way
   - **Medium**: a 6×6 board with stars to pick up first, and cards that repeat 2 or 3 times
   - **Hard**: a wall with a locked door, a key to find, and only one spare card slot
 - Arrow cards, not turn-left/turn-right, so young kids can play
 - The next level never starts and ends in the same place as the one just played
-- Robot speed: slow, normal or fast
 - A count of levels solved at each size
 - Keyboard play on a computer: arrow keys add cards, Backspace removes the last, Enter runs
 - Picks up where you left off after a reload

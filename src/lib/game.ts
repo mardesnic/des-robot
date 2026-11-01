@@ -8,25 +8,12 @@ export type Game = {
   solved: boolean;
 };
 
-export const SPEEDS = ['slow', 'normal', 'fast'] as const;
-export type Speed = (typeof SPEEDS)[number];
-
 // Milliseconds per step. Slow enough to follow with a finger.
-export const STEP_MS: Record<Speed, number> = {
-  slow: 850,
-  normal: 550,
-  fast: 320,
-};
+export const STEP_MS = 550;
 
-export type Settings = {
-  speed: Speed;
-  language: Language;
-};
+export type Settings = { language: Language };
 
-export const initialSettings: Settings = {
-  speed: 'normal',
-  language: 'auto',
-};
+export const initialSettings: Settings = { language: 'auto' };
 
 export type Stats = { [D in Difficulty]: { solved: number } };
 

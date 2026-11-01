@@ -1,14 +1,12 @@
-import { SPEEDS, type Settings, type Stats } from '../lib/game';
+import type { Settings, Stats } from '../lib/game';
 import { LANG_NAMES, LANGS, type Language, type Strings } from '../lib/i18n';
 import { DIFFICULTIES, type Difficulty } from '../lib/robot';
 
 export function NewGame({
   onStart,
-  stats,
   t,
 }: {
   onStart: (d: Difficulty) => void;
-  stats: Stats;
   t: Strings;
 }) {
   return (
@@ -23,9 +21,6 @@ export function NewGame({
               ))}
             </span>
             {t.levels[d]}
-            {stats[d].solved > 0 && (
-              <span className='level__stars'>★ {stats[d].solved}</span>
-            )}
           </button>
         ))}
       </div>
@@ -76,16 +71,6 @@ export function SettingsView({
     <>
       <section className='card'>
         <h2>{t.settings}</h2>
-
-        <div className='field'>
-          <span>{t.speed}</span>
-          <Segmented
-            options={SPEEDS}
-            value={settings.speed}
-            label={(s) => t.speeds[s]}
-            onChange={(speed) => setSettings({ ...settings, speed })}
-          />
-        </div>
 
         <div className='field'>
           <span>{t.language}</span>

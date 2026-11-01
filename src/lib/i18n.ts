@@ -1,4 +1,3 @@
-import type { Speed } from './game';
 import type { Difficulty, Dir } from './robot';
 
 export const LANGS = ['en', 'hr'] as const;
@@ -31,16 +30,11 @@ const en = {
   cancel: 'Cancel',
   done: 'Done',
   levels: {
-    tiny: 'Little',
+    tiny: 'Very easy',
     easy: 'Easy',
     medium: 'Medium',
     hard: 'Hard',
   } as Record<Difficulty, string>,
-  goals: {
-    battery: 'Help the robot get to the battery',
-    stars: 'Pick up every star, then go to the battery',
-    key: 'Get the key to open the door',
-  },
   repeatTip: 'Tap a card to make it go 2 or 3 times',
   dirs: {
     up: 'Up',
@@ -60,11 +54,6 @@ const en = {
   solved: 'Well done!',
   next: 'Next level',
   changeLevel: 'Change level',
-  speed: 'Robot speed',
-  speeds: { slow: 'Slow', normal: 'Normal', fast: 'Fast' } as Record<
-    Speed,
-    string
-  >,
   language: 'Language',
   automatic: 'Automatic',
   statistics: 'Statistics',
@@ -81,15 +70,10 @@ const hr: Strings = {
   cancel: 'Odustani',
   done: 'Gotovo',
   levels: {
-    tiny: 'Malo',
+    tiny: 'Vrlo lagano',
     easy: 'Lagano',
     medium: 'Srednje',
     hard: 'Teško',
-  },
-  goals: {
-    battery: 'Pomozi robotu doći do baterije',
-    stars: 'Skupi sve zvjezdice, pa idi do baterije',
-    key: 'Uzmi ključ da otvoriš vrata',
   },
   repeatTip: 'Dodirni karticu da ide 2 ili 3 puta',
   dirs: {
@@ -111,8 +95,6 @@ const hr: Strings = {
   solved: 'Bravo!',
   next: 'Sljedeća razina',
   changeLevel: 'Promijeni razinu',
-  speed: 'Brzina robota',
-  speeds: { slow: 'Sporo', normal: 'Normalno', fast: 'Brzo' },
   language: 'Jezik',
   automatic: 'Automatski',
   statistics: 'Statistika',
