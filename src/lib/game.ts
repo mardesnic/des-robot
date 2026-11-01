@@ -1,17 +1,10 @@
 import type { Language } from './i18n';
-import {
-  hint,
-  type Card,
-  type Difficulty,
-  type Dir,
-  type Level,
-} from './robot';
+import type { Card, Difficulty, Dir, Level } from './robot';
 
 export type Game = {
   level: Level;
   program: Card[];
   tries: number; // times Go was pressed without winning
-  hints: number;
   solved: boolean;
 };
 
@@ -26,21 +19,14 @@ export const STEP_MS: Record<Speed, number> = {
 };
 
 export type Settings = {
-  hintLimit: number | null; // hints per level: 0 turns them off, null is unlimited
   speed: Speed;
   language: Language;
 };
 
 export const initialSettings: Settings = {
-  hintLimit: 3,
   speed: 'normal',
   language: 'auto',
 };
-
-export const HINT_LIMITS = [0, 3, 5, null];
-
-export const hintsLeft = (game: Game, limit: number | null) =>
-  limit === null ? Infinity : Math.max(limit - game.hints, 0);
 
 export type Stats = { [D in Difficulty]: { solved: number } };
 
@@ -55,7 +41,6 @@ export const newGame = (level: Level): Game => ({
   level,
   program: [],
   tries: 0,
-  hints: 0,
   solved: false,
 });
 
@@ -83,15 +68,6 @@ export const cycleTimes = (game: Game, i: number) =>
       k === i ? { ...c, times: (c.times % 3) + 1 } : c
     )
   );
-
-export function takeHint(game: Game): Game {
-  if (game.solved) return game;
-  return {
-    ...game,
-    program: hint(game.level, game.program),
-    hints: game.hints + 1,
-  };
-}
 
 export const finishRun = (game: Game, won: boolean): Game =>
   won ? { ...game, solved: true } : { ...game, tries: game.tries + 1 };

@@ -25,7 +25,7 @@ export type Level = {
   door?: number;
   counts: boolean; // cards can repeat 2 or 3 times
   slots: number; // most cards the program can hold
-  solution: Card[]; // one shortest program, for hints
+  solution: Card[]; // one shortest program
 };
 
 // Where the robot is and what it has picked up so far.
@@ -287,24 +287,21 @@ function attempt(difficulty: Difficulty, rng: Rng): Level | undefined {
 }
 
 // Makes a random level. Almost every attempt is thrown away, but each one
-// is a tiny search, so this still takes only a few milliseconds.
-export function generate(difficulty: Difficulty, rng: Rng): Level {
+// is a tiny search, so this still takes only a few milliseconds. A level
+// with the same start and goal as `previous` is thrown away too, so the
+// next level never looks like the one just played.
+export function generate(
+  difficulty: Difficulty,
+  rng: Rng,
+  previous?: Level
+): Level {
   for (;;) {
     const level = attempt(difficulty, rng);
-    if (level) return level;
+    if (
+      level &&
+      !(level.start === previous?.start && level.goal === previous.goal)
+    ) {
+      return level;
+    }
   }
-}
-
-// What a hint does to the program: cut it back to just before a bump,
-// or add the next card of a shortest way to the goal. If that way won't
-// fit in the slots left, it starts over with the first card.
-export function hint(level: Level, program: Card[]): Card[] {
-  const run = simulate(level, program);
-  if (run.won) return program;
-  if (run.bumpedAt !== undefined) return program.slice(0, run.bumpedAt);
-  const rest = solve(level, run.ticks.at(-1))!;
-  if (program.length + rest.length <= level.slots) {
-    return [...program, rest[0]];
-  }
-  return [level.solution[0]];
 }

@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import {
   DIFFICULTIES,
   generate,
-  hint,
   simulate,
   solve,
   startState,
@@ -160,27 +159,16 @@ describe('generate', () => {
   });
 });
 
-describe('hint', () => {
-  it('builds up a winning program one card at a time', () => {
+describe('next level', () => {
+  it('never has the same start and goal as the one before', () => {
     for (const d of DIFFICULTIES) {
-      const level = generate(d, seeded(7));
-      let program: Card[] = [];
-      for (let n = 0; n < 30 && !simulate(level, program).won; n++) {
-        program = hint(level, program);
-        expect(program.length).toBeLessThanOrEqual(level.slots);
+      const rng = seeded(3);
+      let level = generate(d, rng);
+      for (let n = 0; n < 200; n++) {
+        const next = generate(d, rng, level);
+        expect([next.start, next.goal]).not.toEqual([level.start, level.goal]);
+        level = next;
       }
-      expect(simulate(level, program).won).toBe(true);
     }
-  });
-
-  it('cuts the program back to just before a bump', () => {
-    const program = [card('down'), card('right'), card('right'), card('up')];
-    expect(hint(sample, program)).toEqual(program.slice(0, 2));
-  });
-
-  it('starts over when the rest will not fit', () => {
-    const level = { ...sample, slots: 3, solution: [card('down')] };
-    const program = [card('right'), card('left'), card('right')];
-    expect(hint(level, program)).toEqual([card('down')]);
   });
 });

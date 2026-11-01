@@ -1,4 +1,4 @@
-import { HINT_LIMITS, SPEEDS, type Settings, type Stats } from '../lib/game';
+import { SPEEDS, type Settings, type Stats } from '../lib/game';
 import { LANG_NAMES, LANGS, type Language, type Strings } from '../lib/i18n';
 import { DIFFICULTIES, type Difficulty } from '../lib/robot';
 
@@ -84,19 +84,6 @@ export function SettingsView({
             value={settings.speed}
             label={(s) => t.speeds[s]}
             onChange={(speed) => setSettings({ ...settings, speed })}
-          />
-        </div>
-
-        <div className='field'>
-          <span>
-            {t.hints}
-            <span className='muted'>{t.hintsDetail}</span>
-          </span>
-          <Segmented
-            options={HINT_LIMITS}
-            value={settings.hintLimit}
-            label={(l) => (l === null ? '∞' : l === 0 ? t.off : String(l))}
-            onChange={(hintLimit) => setSettings({ ...settings, hintLimit })}
           />
         </div>
 

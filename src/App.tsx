@@ -11,7 +11,6 @@ import {
   clearProgram,
   cycleTimes,
   finishRun,
-  hintsLeft,
   initialSettings,
   initialStats,
   isFull,
@@ -20,7 +19,6 @@ import {
   removeCard,
   removeLast,
   STEP_MS,
-  takeHint,
   type Game,
   type Settings,
   type Stats,
@@ -81,7 +79,10 @@ export default function App() {
   };
 
   const start = (difficulty: Difficulty) => {
-    setStore({ game: newGame(generate(difficulty, Math.random)) });
+    // The last level, if it was the same size, so the new one isn't alike.
+    const previous =
+      game?.level.difficulty === difficulty ? game.level : undefined;
+    setStore({ game: newGame(generate(difficulty, Math.random, previous)) });
     setRun(undefined);
     setAttempt((a) => a + 1);
     setView('play');
@@ -120,18 +121,12 @@ export default function App() {
     return () => clearTimeout(id);
   });
 
-  const limit = settings.hintLimit;
-  const left = game ? hintsLeft(game, limit) : 0;
-
   const edit = (f: (g: Game) => Game) => {
     if (game && !running) update(f(game));
   };
   const add = (dir: Dir) => edit((g) => addCard(g, dir));
   const tapCard = (i: number) =>
     edit((g) => (g.level.counts ? cycleTimes(g, i) : removeCard(g, i)));
-  const showHint = () => {
-    if (left > 0) edit(takeHint);
-  };
 
   // Keyboard play for computers: arrows add cards, Backspace takes the
   // last one away, Enter or Space runs the program.
@@ -241,8 +236,7 @@ export default function App() {
             <section className='card solved'>
               <h2>{t.solved}</h2>
               <p className='muted'>
-                {game.tries ? t.tries(game.tries + 1) : t.firstTry} ·{' '}
-                {game.hints ? t.hintsUsed(game.hints) : t.noHints}
+                {game.tries ? t.tries(game.tries + 1) : t.firstTry}
               </p>
               <div className='solved__actions'>
                 <button
@@ -314,19 +308,6 @@ export default function App() {
                     >
                       <Icon name='clear' />
                     </button>
-                    {limit !== 0 && (
-                      <button
-                        className='tool'
-                        onClick={showHint}
-                        disabled={running || left <= 0}
-                        aria-label={t.hint}
-                      >
-                        <Icon name='hint' />
-                        <span className='tool__count'>
-                          {left === Infinity ? '∞' : left}
-                        </span>
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>

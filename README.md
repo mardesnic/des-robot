@@ -18,7 +18,7 @@ On your phone, open it and choose **Add to Home Screen** (Safari) or **Install a
   - **Medium**: a 6×6 board with stars to pick up first, and cards that repeat 2 or 3 times
   - **Hard**: a wall with a locked door, a key to find, and only one spare card slot
 - Arrow cards, not turn-left/turn-right, so young kids can play
-- Hints that take away a card that bumps, or add the next good card: 3 per level by default, or 5, unlimited or off
+- The next level never starts and ends in the same place as the one just played
 - Robot speed: slow, normal or fast
 - A count of levels solved at each size
 - Keyboard play on a computer: arrow keys add cards, Backspace removes the last, Enter runs
