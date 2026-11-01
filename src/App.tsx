@@ -254,8 +254,6 @@ export default function App() {
                 onTap={tapCard}
                 t={t}
               />
-              {game.level.counts && <p className='tip muted'>{t.repeatTip}</p>}
-
               <div className='controls'>
                 <div className='dpad'>
                   {(['up', 'left', 'right', 'down'] as const).map((dir) => (

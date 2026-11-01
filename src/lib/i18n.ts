@@ -35,7 +35,6 @@ const en = {
     medium: 'Medium',
     hard: 'Hard',
   } as Record<Difficulty, string>,
-  repeatTip: 'Tap a card to make it go 2 or 3 times',
   dirs: {
     up: 'Up',
     right: 'Right',
@@ -75,7 +74,6 @@ const hr: Strings = {
     medium: 'Srednje',
     hard: 'Teško',
   },
-  repeatTip: 'Dodirni karticu da ide 2 ili 3 puta',
   dirs: {
     up: 'Gore',
     right: 'Desno',
