@@ -12,6 +12,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       pwaAssets: { config: true },
       manifest: {
+        // A fixed id of its own. Not 'des-<name>' like the newer games: this
+        // is the id phones already gave it (its start_url) before it had one,
+        // so an installed copy stays the same app and keeps updating.
+        id: '/des-robot/',
         name: 'Robot',
         short_name: 'Robot',
         description: 'A path-planning puzzle game for kids that works offline',
