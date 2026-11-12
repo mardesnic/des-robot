@@ -51,6 +51,7 @@ describe('simulate', () => {
     expect(run.won).toBe(true);
     expect(run.ticks.at(-1)?.pos).toBe(11);
     expect(run.ticks.map((t) => t.card)).toEqual([-1, 0, 1, 2, 3, 3]);
+    expect(run.ticks.map((t) => t.arrow)).toEqual([0, 0, 0, 0, 0, 1]);
   });
 
   it('does not win at the goal while a star is left', () => {

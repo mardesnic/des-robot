@@ -23,7 +23,7 @@ export type Level = {
   stars: number[]; // all must be picked up before the goal counts
   key?: number; // the door is a wall until the robot has the key
   door?: number;
-  counts: boolean; // cards can repeat 2 or 3 times
+  counts: boolean; // the same arrows group, up to 3 on a card
   slots: number; // most cards the program can hold
   solution: Card[]; // one shortest program
 };
@@ -33,6 +33,7 @@ export type State = { pos: number; stars: number; key: boolean };
 
 export type Tick = State & {
   card: number; // the card being played, -1 before the first
+  arrow: number; // which of the card's arrows, 0 for the first
   bump?: Dir; // tried to move this way and hit something
 };
 
@@ -71,17 +72,17 @@ export function step(level: Level, s: State, dir: Dir): State | undefined {
 // as the robot reaches the goal with every star.
 export function simulate(level: Level, program: Card[]): Run {
   let s = startState(level);
-  const ticks: Tick[] = [{ ...s, card: -1 }];
+  const ticks: Tick[] = [{ ...s, card: -1, arrow: 0 }];
   for (let k = 0; k < program.length; k++) {
     const { dir, times } = program[k];
     for (let t = 0; t < times; t++) {
       const next = step(level, s, dir);
       if (!next) {
-        ticks.push({ ...s, card: k, bump: dir });
+        ticks.push({ ...s, card: k, arrow: t, bump: dir });
         return { ticks, won: false, bumpedAt: k };
       }
       s = next;
-      ticks.push({ ...s, card: k });
+      ticks.push({ ...s, card: k, arrow: t });
       if (hasWon(level, s)) return { ticks, won: true };
     }
   }

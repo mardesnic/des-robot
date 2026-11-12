@@ -8,12 +8,11 @@ import { Program } from './components/Program';
 import { Arrow } from './components/Sprite';
 import {
   addCard,
+  canAdd,
   clearProgram,
-  cycleTimes,
   finishRun,
   initialSettings,
   initialStats,
-  isFull,
   newGame,
   recordWin,
   removeCard,
@@ -140,8 +139,7 @@ export default function App() {
     if (game && !running) update(f(game));
   };
   const add = (dir: Dir) => edit((g) => addCard(g, dir));
-  const tapCard = (i: number) =>
-    edit((g) => (g.level.counts ? cycleTimes(g, i) : removeCard(g, i)));
+  const tapCard = (i: number) => edit((g) => removeCard(g, i));
 
   // Keyboard play for computers: arrows add cards, Backspace takes the
   // last one away, Enter or Space runs the program.
@@ -177,7 +175,7 @@ export default function App() {
     } else if (game.solved) {
       at = simulate(game.level, game.program).ticks.at(-1);
     } else {
-      at = { ...startState(game.level), card: -1 };
+      at = { ...startState(game.level), card: -1, arrow: 0 };
     }
   }
 
@@ -264,8 +262,11 @@ export default function App() {
               <Program
                 program={game.program}
                 slots={game.level.slots}
-                counts={game.level.counts}
-                active={run && at.card >= 0 ? at.card : undefined}
+                active={
+                  run && at.card >= 0
+                    ? { card: at.card, arrow: at.arrow }
+                    : undefined
+                }
                 bumped={run && at.bump ? at.card : undefined}
                 disabled={running}
                 onTap={tapCard}
@@ -278,7 +279,7 @@ export default function App() {
                       key={dir}
                       className={`dpad__key dpad__key--${dir}`}
                       onClick={() => add(dir)}
-                      disabled={running || isFull(game)}
+                      disabled={running || !canAdd(game, dir)}
                       aria-label={t.dirs[dir]}
                     >
                       <Arrow dir={dir} />

@@ -41,7 +41,8 @@ const en = {
     down: 'Down',
     left: 'Left',
   } as Record<Dir, string>,
-  card: (dir: string, times: number) => (times > 1 ? `${dir} ×${times}` : dir),
+  card: (dir: string, times: number) =>
+    times > 1 ? `${dir} ${times} times` : dir,
   emptySlot: 'Empty',
   program: 'Program',
   go: 'Go',
@@ -83,7 +84,7 @@ const hr: Strings = {
     down: 'Dolje',
     left: 'Lijevo',
   },
-  card: (dir, times) => (times > 1 ? `${dir} ×${times}` : dir),
+  card: (dir, times) => (times > 1 ? `${dir} ${times} puta` : dir),
   emptySlot: 'Prazno',
   program: 'Program',
   go: 'Kreni',

@@ -33,27 +33,43 @@ export const newGame = (level: Level): Game => ({
 const edit = (game: Game, program: Card[]): Game =>
   game.solved ? game : { ...game, program };
 
-export const isFull = (game: Game) => game.program.length >= game.level.slots;
+// Most arrows one card holds, on levels where the same arrows group.
+export const MAX_TIMES = 3;
 
-export const addCard = (game: Game, dir: Dir) =>
-  isFull(game) ? game : edit(game, [...game.program, { dir, times: 1 }]);
+// Where the next arrow of this way goes: onto the last card when it points
+// the same way and has room (levels with repeats only), else a new card.
+const groups = (game: Game, dir: Dir) => {
+  const last = game.program.at(-1);
+  return game.level.counts && last?.dir === dir && last.times < MAX_TIMES;
+};
+
+export const canAdd = (game: Game, dir: Dir) =>
+  groups(game, dir) || game.program.length < game.level.slots;
+
+export const addCard = (game: Game, dir: Dir) => {
+  if (!canAdd(game, dir)) return game;
+  const { program } = game;
+  return edit(
+    game,
+    groups(game, dir)
+      ? program.with(-1, { dir, times: program.at(-1)!.times + 1 })
+      : [...program, { dir, times: 1 }]
+  );
+};
 
 export const removeCard = (game: Game, i: number) =>
   edit(game, game.program.toSpliced(i, 1));
 
-export const removeLast = (game: Game) =>
-  removeCard(game, game.program.length - 1);
+// Takes back the last arrow pressed: one arrow off the last card.
+export const removeLast = (game: Game) => {
+  const last = game.program.at(-1);
+  if (!last) return game;
+  return last.times > 1
+    ? edit(game, game.program.with(-1, { ...last, times: last.times - 1 }))
+    : removeCard(game, game.program.length - 1);
+};
 
 export const clearProgram = (game: Game) => edit(game, []);
-
-// Tapping a card on levels with repeats steps it through 1, 2 and 3.
-export const cycleTimes = (game: Game, i: number) =>
-  edit(
-    game,
-    game.program.map((c, k) =>
-      k === i ? { ...c, times: (c.times % 3) + 1 } : c
-    )
-  );
 
 export const finishRun = (game: Game, won: boolean): Game =>
   won ? { ...game, solved: true } : { ...game, tries: game.tries + 1 };
