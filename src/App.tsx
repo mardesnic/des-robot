@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Board } from './components/Board';
+import { HomeLink } from './components/HomeLink';
 import { Confetti } from './components/Confetti';
 import { Icon } from './components/Icon';
 import { NewGame, SettingsView } from './components/Menu';
@@ -177,7 +178,10 @@ export default function App() {
   return (
     <main className={view === 'play' && game ? 'app app--play' : 'app'}>
       <header className='header'>
-        <h1>{t.title}</h1>
+        <div className='header__title'>
+          <HomeLink label={t.allGames} />
+          <h1>{t.title}</h1>
+        </div>
         <div className='header__actions'>
           {view === 'play' ? (
             <>
@@ -188,10 +192,11 @@ export default function App() {
                 {t.newGame}
               </button>
               <button
-                className='button button--small'
+                className='button button--small button--icon'
                 onClick={() => setView('settings')}
+                aria-label={t.settings}
               >
-                {t.settings}
+                <Icon name='settings' />
               </button>
             </>
           ) : (
