@@ -318,6 +318,7 @@ export default function App() {
 
       {view === 'settings' && (
         <footer className='footer'>
+          <a href='/des-kids-games/'>{t.allGames}</a>
           <a href='https://github.com/mardesnic/des-robot'>{t.source}</a>
         </footer>
       )}
