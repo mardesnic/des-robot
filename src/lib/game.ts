@@ -10,10 +10,6 @@ export type Game = {
 // Milliseconds per step. Slow enough to follow with a finger.
 export const STEP_MS = 550;
 
-export type Settings = { sound: boolean };
-
-export const initialSettings: Settings = { sound: true };
-
 export type Stats = { [D in Difficulty]: { solved: number } };
 
 export const initialStats: Stats = {
