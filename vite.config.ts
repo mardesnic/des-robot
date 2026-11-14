@@ -36,7 +36,7 @@ export default defineConfig({
         name: 'Robot',
         short_name: 'Robot',
         description: 'A path-planning puzzle game for kids that works offline',
-        theme_color: '#f08a24',
+        theme_color: '#e8590c',
         background_color: '#f4f5f7',
         display: 'standalone',
       },

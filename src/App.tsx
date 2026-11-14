@@ -56,9 +56,7 @@ export default function App() {
     else pushMenu();
     setViewState(next);
   };
-  useBackButton(() => {
-    if (game) setViewState('play');
-  });
+  useBackButton(() => setViewState(game ? 'play' : 'new'));
   const [run, setRun] = useState<{ trace: Run; tick: number }>();
   const [attempt, setAttempt] = useState(0);
   const [celebrating, setCelebrating] = useState(false);
@@ -199,16 +197,22 @@ export default function App() {
                 <Icon name='settings' />
               </button>
             </>
+          ) : game || view === 'settings' ? (
+            <button
+              className='button button--small button--icon'
+              onClick={() => (game ? setView('play') : popMenu())}
+              aria-label={t.close}
+            >
+              <Icon name='close' />
+            </button>
           ) : (
-            game && (
-              <button
-                className='button button--small button--icon'
-                onClick={() => setView('play')}
-                aria-label={t.close}
-              >
-                <Icon name='close' />
-              </button>
-            )
+            <button
+              className='button button--small button--icon'
+              onClick={() => setView('settings')}
+              aria-label={t.settings}
+            >
+              <Icon name='settings' />
+            </button>
           )}
         </div>
       </header>
